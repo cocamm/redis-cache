@@ -1,7 +1,6 @@
 package com.osp.redis.cache.todo;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,11 +15,15 @@ public class TodoController {
     private final TodoService todoService;
 
     @PostMapping
-    @CacheEvict(cacheNames = "todo-user", key = "#todo.user")
     public ResponseEntity<Void> create(@RequestBody Todo todo) {
         todoService.create(todo);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<Todo> complete(@PathVariable String id) {
+        return new ResponseEntity<>(todoService.complete(id), HttpStatus.OK);
     }
 
     @GetMapping

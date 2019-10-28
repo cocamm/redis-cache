@@ -20,11 +20,22 @@ public class TodoService {
         todoRepository.save(todo);
     }
 
+    public Todo complete(String id) {
+        Assert.notNull(id, "Id cannot be null");
+
+        return todoRepository.findById(id)
+                .map(todo -> {
+                    todo.setStatus(Status.DONE);
+                    return todoRepository.save(todo);
+                })
+                .orElseThrow(() -> new TodoNotFoundException("Todo not found"));
+    }
+
     public List<Todo> findAll() {
         return todoRepository.findAll();
     }
 
     public List<Todo> findByUser(String user) {
-            return todoRepository.findByUser(user);
+        return todoRepository.findByUser(user);
     }
 }

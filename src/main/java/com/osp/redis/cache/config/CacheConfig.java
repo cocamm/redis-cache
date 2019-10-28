@@ -12,7 +12,7 @@ import java.time.Duration;
 @EnableCaching
 public class CacheConfig {
 
-    @Value("${cache.timeout:30}")
+    @Value("${cache.timeout:300}")
     private long timeoutInSeconds;
 
     @Bean
